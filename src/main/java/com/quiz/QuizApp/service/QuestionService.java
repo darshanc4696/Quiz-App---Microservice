@@ -23,6 +23,11 @@ public class QuestionService {
 		
 		return questionRepository.findAllByCategory(category);
 	}
+
+	public Question addQuestion(Question question) {
+		return questionRepository.save(question);
+		
+	}
 	
 
 }
