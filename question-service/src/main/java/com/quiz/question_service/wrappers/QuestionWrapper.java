@@ -2,9 +2,11 @@ package com.quiz.question_service.wrappers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class QuestionWrapper {
 
 	private int id;
