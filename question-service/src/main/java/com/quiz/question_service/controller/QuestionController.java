@@ -27,7 +27,7 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 
-	@GetMapping("/getQuestions")
+	@GetMapping("/getAllQuestions")
 	public ResponseEntity<List<Question>> getAllQuestions()
 	{
 		return questionService.getAllQuestions();
