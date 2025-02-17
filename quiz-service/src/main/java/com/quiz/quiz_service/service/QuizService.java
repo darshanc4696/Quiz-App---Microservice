@@ -1,12 +1,17 @@
 package com.quiz.quiz_service.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.quiz.quiz_service.feign.QuizInterface;
+import com.quiz.quiz_service.model.Quiz;
 import com.quiz.quiz_service.repo.QuizRepository;
 import com.quiz.quiz_service.wrappers.QuestionWrapper;
 import com.quiz.quiz_service.wrappers.QuizResponseWrapper;
@@ -17,19 +22,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class QuizService {
 
-//    private final QuestionRepository questionRepository;
     private final QuizRepository quizRepository;
+    
+    @Autowired
+    private QuizInterface quizInterface;
 
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
 
-//    	List<Integer> questions = questionRepository.findAllByCategory(category);
-//        Collections.shuffle(questions);  // Randomize questions
-//        List<Question> selectedQuestions = questions.stream().limit(numQ).toList();
-//
-//        Quiz quiz = new Quiz();
-//        quiz.setTitle(title);
-//        quiz.setQuestion(selectedQuestions);
-//        quizRepository.save(quiz);
+    	List<Integer> questionIds = quizInterface.getQuestionsForQuiz(category, numQ).getBody();
+
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setQuestionIds(questionIds);
+        quizRepository.save(quiz);
 
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
 

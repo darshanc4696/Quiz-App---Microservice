@@ -63,7 +63,8 @@ public class QuestionService {
 	public ResponseEntity<List<Integer>> getQuestionsForQuiz(String categoryName, Integer numQ) {
 		List<Integer> questions = questionRepository.findRandomQuestionsByCategory(categoryName);
 		Collections.shuffle(questions);
-		return new ResponseEntity<>(questions, HttpStatus.OK);
+		List<Integer> selectedQuestions = questions.subList(0, Math.min(numQ, questions.size()));
+		return new ResponseEntity<>(selectedQuestions, HttpStatus.OK);
 	}
 
 	public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(List<Integer> questionIds) {
