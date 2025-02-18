@@ -1,10 +1,7 @@
 package com.quiz.quiz_service.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,33 +38,14 @@ public class QuizService {
     }
 
 	public ResponseEntity<List<QuestionWrapper>> getQuestionsBasedOnId(int id) {
-//		Optional<Quiz> quiz = quizRepository.findById(id);
-//		List<Question> questions = quiz.get().getQuestion();
-		List<QuestionWrapper> questionWrappers = new ArrayList<QuestionWrapper>();
-//		
-//		for(Question q : questions)
-//		{
-//			questionWrappers.add(new QuestionWrapper(q.getId(), q.getQuestionTitle(), q.getOption1(), q.getOption2(), q.getOption3(), q.getOption4()));
-//		}
+		Quiz quiz = quizRepository.findById(id).get();
+		ResponseEntity<List<QuestionWrapper>> questions = quizInterface.getQuestionsFromId(quiz.getQuestionIds());
 		
-		return new ResponseEntity<>(questionWrappers, HttpStatus.OK);
+		return questions;
 	}
 
 	public int calculate(int id, List<QuizResponseWrapper> response) {
-//		Optional<Quiz> quiz = quizRepository.findById(id);
-//		List<Question> questions = quiz.get().getQuestion();
-//		
-		int correct_answer = 0;
-//		int i = 0;
-//		
-//		for(QuizResponseWrapper q : response)
-//		{
-//			if(q.getResponse().equals(questions.get(i).getRightAnswer()))
-//			{
-//				correct_answer += 1;
-//			}
-//			i++;
-//		}
+		int correct_answer = quizInterface.getScore(response).getBody();
 		
 		return correct_answer;
 	}
